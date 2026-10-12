@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Hanyang LearningX Downloader",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": "mechaminu",
   "description": "한양대 강의 플레이어에 로드된 영상을 저장합니다.",
   "action": {
@@ -11,10 +11,11 @@
   "permissions": [
     "activeTab",
     "scripting",
-    "downloads"
+    "storage"
   ],
   "host_permissions": [
     "https://learning.hanyang.ac.kr/*",
-    "https://hycms.hanyang.ac.kr/*"
+    "https://hycms.hanyang.ac.kr/*",
+    "http://127.0.0.1:52022/*"
   ]
 }

@@ -1,5 +1,12 @@
 {
-  "dependencies": {
-    "express": "^5.1.0"
+  "name": "hanyang-learningx-downloader",
+  "version": "0.5.0",
+  "private": true,
+  "scripts": {
+    "start": "node backend/server.cjs",
+    "build:exe": "pkg backend/server.cjs --target node22-win-x64 --output dist/HanyangDownloader.exe"
+  },
+  "devDependencies": {
+    "@yao-pkg/pkg": "6.23.0"
   }
 }

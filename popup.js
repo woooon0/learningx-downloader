@@ -11,10 +11,6 @@ function supported(raw) {
       !/\/(preloader|intro)\.mp4$/i.test(url.pathname);
   } catch { return false; }
 }
-function filename(title, url) {
-  const base = title.replace(/[<>:"/\\|?*\x00-\x1f]/g, '_').replace(/[. ]+$/g, '').slice(0, 120) || 'lecture';
-  return 'Hanyang/' + (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(base) ? '_' : '') + base + new URL(url).pathname.match(/\.[^.\/]+$/)[0];
-}
 scan.addEventListener('click', async () => {
   scan.disabled = true;
   list.replaceChildren();
@@ -39,8 +35,8 @@ scan.addEventListener('click', async () => {
       button.addEventListener('click', async () => {
         button.disabled = true;
         try {
-          await chrome.downloads.download({ url: video.url, filename: filename(title, video.url), saveAs: true, conflictAction: 'uniquify' });
-          status.textContent = '다운로드를 요청했습니다. Chrome 다운로드 목록에서 완료 여부를 확인하세요. 서버가 거부하면 저장되지 않습니다.';
+          await api('/download', {url: video.url, title, format: document.querySelector('#format').value});
+          await refreshStatus();
         } catch (error) { status.textContent = `저장 요청 실패: ${error.message}`; }
         finally { button.disabled = false; }
       });
@@ -50,3 +46,30 @@ scan.addEventListener('click', async () => {
   } catch (error) { status.textContent = error.message; }
   finally { scan.disabled = false; }
 });
+
+const connection = document.querySelector('#connection');
+async function api(route, body) {
+  const code = connection.value.trim();
+  if (!code) throw new Error('다운로더 EXE에 표시된 연결 코드를 입력하세요.');
+  const response = await fetch('http://127.0.0.1:52022' + route, {
+    method: body ? 'POST' : 'GET',
+    headers: {Authorization: 'Bearer ' + code, ...(body ? {'Content-Type':'application/json'} : {})},
+    ...(body ? {body: JSON.stringify(body)} : {})
+  }).catch(() => { throw new Error('다운로더 EXE를 먼저 실행하세요.'); });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || '다운로드 요청 실패');
+  await chrome.storage.local.set({connectionCode: code});
+  return data;
+}
+async function refreshStatus() {
+  const {job} = await api('/status');
+  const output = document.querySelector('#progress');
+  if (!job) { output.textContent = '다운로더 연결 완료'; return; }
+  if (job.state === 'complete') output.textContent = '저장 완료: ' + (job.audio || job.video);
+  else if (job.state === 'failed') output.textContent = '실패: ' + job.error + (job.video ? ' / 원본 영상: ' + job.video : '');
+  else if (job.state === 'converting') output.textContent = 'MP3 변환 중…';
+  else output.textContent = '다운로드 중: ' + (job.total ? Math.floor(job.bytes / job.total * 100) + '%' : Math.floor(job.bytes / 1048576) + ' MB');
+}
+document.querySelector('#connect').addEventListener('click', () => refreshStatus().catch(e => {document.querySelector('#progress').textContent = e.message;}));
+chrome.storage.local.get('connectionCode').then(data => { connection.value = data.connectionCode || ''; if (connection.value) refreshStatus().catch(() => {}); });
+setInterval(() => { if (connection.value.trim()) refreshStatus().catch(() => {}); }, 1500);
