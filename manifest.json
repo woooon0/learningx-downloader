@@ -1,26 +1,20 @@
 {
   "manifest_version": 3,
-  "name": "LearningX Downloader",
-  "version": "0.3",
+  "name": "Hanyang LearningX Downloader",
+  "version": "0.4.0",
   "author": "mechaminu",
-  "description": "Download videos from LearningX",
+  "description": "한양대 강의 플레이어에 로드된 영상을 저장합니다.",
   "action": {
-    "name": "learningx-downloader",
-    "default_icon": "icon-128.png",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_title": "한양대 강의 저장"
   },
   "permissions": [
     "activeTab",
     "scripting",
-    "webRequest"
+    "downloads"
   ],
   "host_permissions": [
-    "https://khcanvas.khu.ac.kr/*",
-    "https://commons.khu.ac.kr/*",
-    "http://localhost:52022/*"
-  ],
-  "background": {
-    "service_worker": "background.js"
-  },
-  "icons": { "16": "icon-16.png", "48": "icon-48.png", "128": "icon-128.png" }
+    "https://learning.hanyang.ac.kr/*",
+    "https://hycms.hanyang.ac.kr/*"
+  ]
 }
