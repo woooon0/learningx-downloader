@@ -1,6 +1,9 @@
-# Hanyang LearningX Downloader 0.5.0
+# Hanyang LearningX Downloader 0.5.1
 
 한양대학교 LearningX 강의의 MP4 및 MP3 저장 도구입니다. 학교 공식 프로그램이 아닙니다.
+
+## 0.5.1 수정
+`contents14`에 저장된 기존 강의를 지원합니다. `Unsupported Hanyang media URL`이 발생했던 알고리즘 강의의 주소 검사 문제를 수정했습니다. 기존 0.5.0 사용자는 실행 중인 다운로더를 종료하고 EXE를 교체한 뒤 새 연결 코드를 입력하세요. 기존 확장 0.5.0과도 호환됩니다.
 
 ## 필수 구성
 - Chrome 확장 프로그램
@@ -19,7 +22,7 @@
 ## 동작과 제한
 정상 플레이어에서 관찰된 영상 URL과 강의 제목을 로컬 EXE에 전달합니다. EXE는 원본 프로젝트처럼 한양대 플레이어 출처 Referer를 포함합니다. 서버의 HTTP 상태, video/mp4 형식, 파일 길이와 MP4 헤더를 확인한 뒤 완료로 처리합니다. MP3는 FFmpeg 종료 성공 후 완성 파일로 전환합니다. 실패한 임시 파일은 제거하고 실패 이유를 표시합니다.
 
-현재 확인한 hanyang-cms-object.edge.naverncp.com의 contents_new/hanyang101 MP4만 지원합니다. 인증이나 DRM을 해제하지 않으며 출석 상태를 조작하지 않습니다. 허용되지 않은 URL로의 전환도 자동으로 따라가지 않습니다.
+현재 확인한 hanyang-cms-object.edge.naverncp.com의 contents_new/hanyang101 및 contents14/hanyang101 MP4만 지원합니다. 인증이나 DRM을 해제하지 않으며 출석 상태를 조작하지 않습니다. 허용되지 않은 URL로의 전환도 자동으로 따라가지 않습니다.
 
 EXE는 127.0.0.1:52022에서만 수신하고 실행마다 생성한 연결 코드로 요청을 인증합니다. 로그인 비밀번호나 브라우저 쿠키를 수집하지 않습니다.
 

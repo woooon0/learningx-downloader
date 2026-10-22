@@ -10,3 +10,11 @@
 - A timing-dependent concurrency probe ran after the first job had finished and legitimately started a second job. Its duplicate output was removed. Concurrent rejection has NOT been verified by a live overlapping test.
 - Chrome extension 0.5.0 installation, pairing and UI download initiation have NOT yet been verified in Chrome. These require reloading the installed extension. EXE/API success is not an end-to-end Chrome claim.
 - Source and binaries contain no user passwords, cookies or connection codes. Lecture files are local deliverables only and are not committed to GitHub.
+
+## 0.5.1 verification (2026-10-22)
+- Added exactly the observed contents14 path alongside contents_new; host and media constraints remain enforced.
+- Six URL regression checks passed: both supported paths accepted; an unobserved path, deceptive hostname, HTTP URL and text extension rejected.
+- Built and executed the actual 0.5.1 Windows EXE. Used HANYANG_PORT=52025 to avoid interfering with the user's default instance; production default remains 52022.
+- Downloaded the requested Algorithm course item 8580873 (2. getting started) through the EXE's authenticated API. MP4 size: 573,415,315 bytes; MP3 size: 41,321,513 bytes. Backend state complete.
+- Entire generated MP3 decoded with FFmpeg without errors. Syntax and whitespace checks passed.
+- Existing extension payload/API is unchanged. Chrome popup initiation was not repeated; the reported backend rejection and resulting full download/conversion were verified directly with the new EXE.

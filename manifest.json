@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Hanyang LearningX Downloader",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": "mechaminu",
   "description": "한양대 강의 플레이어에 로드된 영상을 저장합니다.",
   "action": {

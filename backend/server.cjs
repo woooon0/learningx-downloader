@@ -15,7 +15,7 @@ function send(res, code, data) { res.writeHead(code, { 'Content-Type': 'applicat
 function validURL(raw) {
   const url = new URL(raw);
   if (url.protocol !== 'https:' || url.hostname !== 'hanyang-cms-object.edge.naverncp.com' || url.port || url.username || url.password ||
-      !/^\/contents_new\/hanyang101\/[a-zA-Z0-9]+\/contents\/media_files\/[^/]+\.mp4$/.test(url.pathname)) throw new Error('Unsupported Hanyang media URL');
+      !/^\/(?:contents_new|contents14)\/hanyang101\/[a-zA-Z0-9]+\/contents\/media_files\/[^/]+\.mp4$/.test(url.pathname)) throw new Error('Unsupported Hanyang media URL');
   return url;
 }
 function title(raw) {
@@ -89,7 +89,7 @@ const server = http.createServer(async (req, res) => {
   } catch (error) { send(res, 400, { error: error.message }); }
 });
 server.on('error', error => { console.error(error.message); process.exitCode = 1; });
-server.listen(52022, '127.0.0.1', () => {
+server.listen(Number(process.env.HANYANG_PORT || 52022), '127.0.0.1', () => {
   console.log('Hanyang LearningX Downloader');
   console.log(`Connection code: ${token}`);
   console.log(`Output folder: ${root}`);
